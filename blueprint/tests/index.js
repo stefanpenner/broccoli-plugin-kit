@@ -12,6 +12,7 @@ import walkSync from 'walk-sync';
 const { expect } = chai;
 const { file } = chaiFiles;
 
+chai.config.truncateThreshold = 1000;
 chai.use(chaiFiles);
 
 describe('YourPlugin', function() {
