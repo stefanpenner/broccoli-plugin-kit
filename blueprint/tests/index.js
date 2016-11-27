@@ -57,7 +57,7 @@ describe('YourPlugin', function() {
 
       let afterStat = fs.statSync(directory);
 
-      expect(beforeStat).to.equal(afterStat);
+      expect(beforeStat).to.deep.equal(afterStat);
     });
   });
 });
