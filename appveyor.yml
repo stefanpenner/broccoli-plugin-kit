@@ -8,12 +8,6 @@ environment:
     - nodejs_version: "4"
     - nodejs_version: "6"
 
-branches:
-  only:
-    - master
-    - beta
-    - release
-
 # Install scripts. (runs after repo cloning)
 install:
   - cd blueprint
