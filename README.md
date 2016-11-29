@@ -7,4 +7,10 @@ This repo is intended to serve as a starting point for developing [Broccoli plug
 
 ## Setup
 
-TODO: Make copying + renaming blueprint easy
+To get started you can create a plugin by running:
+
+```bash
+node ./bin/create-plugin.js <plugin-name>
+```
+
+This will copy the contents of `blueprint` into a new directory with the given `plugin-name` as a sibling to this repo. If a directory already exists in that location, an error will be thrown.
