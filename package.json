@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A starting point for developing Broccoli plugins.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive tests/"
   },
   "author": "Stefan Penner",
   "repository": {
@@ -23,5 +23,9 @@
     "broccoli-string-replace": "^0.1.1",
     "copy-dereference": "^1.0.0",
     "pascal-case": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "3.2.0",
+    "fs-extra": "1.0.0"
   }
 }
