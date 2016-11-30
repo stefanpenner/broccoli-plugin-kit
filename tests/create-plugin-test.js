@@ -1,10 +1,15 @@
 var path = require('path');
 var fs = require('fs-extra');
 var assert = require('assert');
-var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
 
+function execute(command) {
+  console.info('Executing: ' + command);
+  execSync(command, { stdio: 'pipe' })
+}
+
 describe('create-plugin', function() {
+  var originalCWD = process.cwd();
   var existingPluginPath = path.resolve('../already-exists');
   var testPluginPath = path.resolve('../my-special-plugin');
 
@@ -13,26 +18,27 @@ describe('create-plugin', function() {
   });
 
   afterEach(function() {
+    process.chdir(originalCWD);
     fs.removeSync(existingPluginPath);
     fs.removeSync(testPluginPath);
   });
 
   it('throws an error if a name is not specified', function() {
     assert.throws(function() {
-      execSync('node ./bin/create-plugin.js', { stdio: 'pipe' });
+      execute('node ./bin/create-plugin.js');
     }, /You must specify a name for the plugin you're creating\. Try using `node \.\/bin\/create-plugin.js pluginName`\./);
   });
 
   it('throws an error if the destination directory already exists', function() {
     assert.throws(function() {
-      execSync('node ./bin/create-plugin.js already-exists', { stdio: 'pipe' });
-    }, /The path "\/Users\/twillis\/github\/already-exists" already exists\. Try using a different plugin name\./);
+      execute('node ./bin/create-plugin.js already-exists');
+    }, /The path "\/.*\/already-exists" already exists\. Try using a different plugin name\./);
   });
 
   it('copies the blueprint to the destination path with the proper name replacements', function() {
-    this.timeout(10000);
+    this.timeout(100000);
 
-    execSync('node ./bin/create-plugin.js my-special-plugin', { stdio: 'pipe' });
+    execute('node ./bin/create-plugin.js my-special-plugin');
 
     var index = fs.readFileSync(path.join(testPluginPath, 'src/index.js'), 'utf-8');
     assert.equal(index.indexOf('your-broccoli-plugin'), -1);
@@ -55,5 +61,9 @@ describe('create-plugin', function() {
     assert.equal(readme.indexOf('YourPlugin'), -1);
     assert.notEqual(readme.indexOf('my-special-plugin'), -1);
     assert.notEqual(readme.indexOf('MySpecialPlugin'), -1);
+
+    process.chdir(testPluginPath);
+
+    execute('npm test');
   });
 });

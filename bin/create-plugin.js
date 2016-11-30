@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var broccoli = require('broccoli');
+var execSync = require('child_process').execSync;
 var copyDereferenceSync = require('copy-dereference').sync;
 var replaceBlueprint = require('./utils/replace-blueprint');
 
@@ -19,9 +20,14 @@ if (fs.existsSync(destPath)) {
 var replacedBlueprint = replaceBlueprint(pluginName);
 var pipeline = new broccoli.Builder(replacedBlueprint);
 
+console.info('Copying blueprint to: ' + destPath);
 pipeline.build()
   .then(function(result) {
     copyDereferenceSync(result.directory, destPath);
+
+    process.chdir(destPath);
+    console.info('Installing dependencies');
+    execSync('yarn install || npm install');
   })
   .finally(function () {
     return pipeline.cleanup();
