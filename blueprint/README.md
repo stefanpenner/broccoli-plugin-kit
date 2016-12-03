@@ -5,9 +5,9 @@ Summarize what your-broccoli-plugin does here.
 ## Usage
 
 ```js
-var Plugin = require('your-broccoli-plugin');
+var YourPlugin = require('your-broccoli-plugin');
 
-module.exports = new Plugin(input, options);
+module.exports = new YourPlugin(input, options);
 ```
 
 ## Development
