@@ -1,4 +1,4 @@
-import 'es6-promise'; // for regenerator
+import Promise from 'es6-promise'; // for regenerator
 import 'regenerator-runtime/runtime'; // only for tests, because async/await needs it
 
 import YourPlugin from '../';
@@ -10,7 +10,7 @@ import fs from 'fs-extra';
 import walkSync from 'walk-sync';
 
 const { expect } = chai;
-const { file } = chaiFiles;
+const { dir } = chaiFiles;
 
 chai.config.truncateThreshold = 1000;
 chai.use(chaiFiles);
@@ -42,6 +42,8 @@ describe('YourPlugin', function() {
       const { directory } = await pipeline.build();
 
       // Use expect + walkSync/file to verify the output of your build
+      expect(dir(directory)).to.exist;
+      expect(walkSync(directory)).to.deep.equal([]);
     });
   });
 
