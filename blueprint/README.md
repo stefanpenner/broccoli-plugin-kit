@@ -16,12 +16,16 @@ module.exports = new YourPlugin(input, options);
 
 * `git clone <repository-url>`
 * `cd your-broccoli-plugin`
-* `npm install`
+* `yarn install`
 
 ### Building
 
-* `npm run build`
+* `yarn run build`
 
 ### Testing
 
-* `npm run test` or `npm run test:debug`
+* `yarn run test` or `yarn run test:debug`
+
+### Benchmarks
+
+* `yarn run bench` or `yarn run bench -- --iterations <num>`
