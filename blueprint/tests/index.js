@@ -1,65 +1,42 @@
-import Promise from 'es6-promise'; // for regenerator
 import 'regenerator-runtime/runtime'; // only for tests, because async/await needs it
 
-import YourPlugin from '../';
-import broccoli from 'broccoli';
 import chai from 'chai';
-import chaiFiles from 'chai-files';
-import fixture from 'fixturify';
-import fs from 'fs-extra';
-import walkSync from 'walk-sync';
+import { buildOutput, createTempDir } from 'broccoli-test-helper';
+
+import YourPlugin from '../';
 
 const { expect } = chai;
-const { dir } = chaiFiles;
 
 chai.config.truncateThreshold = 1000;
-chai.use(chaiFiles);
 
 describe('YourPlugin', function() {
-  const input = 'tmp/fixture-input';
-  let node, pipeline;
+  let input;
 
   beforeEach(function() {
-    fs.mkdirpSync(input);
-    fixture.writeSync(input, {
-      // Your fixture directory structure
-    });
-
-    node = new YourPlugin(input, {
-      // Options
-    });
-
-    pipeline = new broccoli.Builder(node);
+    return createTempDir().then(tempDir => (input = tempDir));
   });
 
   afterEach(function() {
-    fs.removeSync(input);
-    return pipeline.cleanup();
+    return input.dispose();
   });
 
-  describe("build", function() {
-    it('simple', async function() {
-      const { directory } = await pipeline.build();
-
-      // Use expect + walkSync/file to verify the output of your build
-      expect(dir(directory)).to.exist;
-      expect(walkSync(directory)).to.deep.equal([]);
+  it('should build', async function() {
+    input.write({
+      // Your fixture directory structure
     });
-  });
 
-  describe('rebuild', function() {
-    it('is stable on idempotent rebuild', async function() {
-      let { directory } = await pipeline.build();
-
-      let beforeStat = fs.statSync(directory);
-
-      // Some filesystems dont have lower then 1s mtime resolution
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      await pipeline.build();
-
-      let afterStat = fs.statSync(directory);
-
-      expect(beforeStat).to.deep.equal(afterStat);
+    let node = new YourPlugin(input.path(), {
+      // Options
     });
+
+    let output = await buildOutput(node);
+
+    expect(output.read()).to.deep.equal({
+      // Your transformed directory structure
+    });
+
+    output = await output.rebuild();
+
+    expect(output.changes()).to.deep.equal({});
   });
 });
