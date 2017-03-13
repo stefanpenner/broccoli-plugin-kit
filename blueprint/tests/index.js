@@ -35,7 +35,7 @@ describe('YourPlugin', function() {
       // Your transformed directory structure
     });
 
-    output = await output.rebuild();
+    output = await output.build();
 
     expect(output.changes()).to.deep.equal({});
   });
