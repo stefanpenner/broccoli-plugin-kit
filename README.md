@@ -19,7 +19,20 @@ After the script, you can run:
 
 ```bash
 cd ../plugin-name
-npm test
+yarn test
+yarn run bench
 ```
 
-And see that you have a working plugin with tests passing!
+And see that you have a working plugin with tests passing and benchmarks in place!
+
+## Running benchmarks
+
+Benchmarks are run using [Bench-CLI](https://github.com/trentmwillis/bench-cli). It is recommended to use the `yarn run bench` command to ensure you have the latest code in your benchmarks.
+
+Bench-CLI supports varying the number of iterations done during benchmarks, you can do this by passing an additional argument to the script:
+
+```bash
+yarn run bench -- --iterations 100
+# or
+yarn run bench -- -i 100
+```

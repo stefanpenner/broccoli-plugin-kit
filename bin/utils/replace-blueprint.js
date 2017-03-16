@@ -17,6 +17,8 @@ module.exports = function replaceBlueprint(name) {
     files: [
       'src/index.js',
       'tests/index.js',
+      'bench/build.js',
+      'bench/rebuild.js',
       'package.json',
       'README.md'
     ],

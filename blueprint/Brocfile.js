@@ -4,6 +4,7 @@ var lint = require('broccoli-lint-eslint');
 var mv = require('broccoli-stew').mv;
 
 module.exports = merge([
+  mv(babel(lint('bench')), 'bench'),
   mv(babel(lint('tests')), 'tests'),
   babel(lint('src')),
 ]);

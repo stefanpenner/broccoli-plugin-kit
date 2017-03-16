@@ -4,6 +4,7 @@
   "description": "A small description of your-broccoli-plugin",
   "main": "dist/index.js",
   "scripts": {
+    "bench": "npm run build && bench dist/bench",
     "build": "rm -rf dist && broccoli build dist",
     "build:serve": "broccoli serve",
     "test": "npm run build && mocha dist/tests --reporter tap",
@@ -26,6 +27,7 @@
     "!dist/tests"
   ],
   "devDependencies": {
+    "bench-cli": "^0.1.0",
     "broccoli": "^0.16.9",
     "broccoli-babel-transpiler": "^5.6.0",
     "broccoli-cli": "^1.0.0",
